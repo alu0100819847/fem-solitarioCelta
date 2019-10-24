@@ -82,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.opcAcercaDe:
                 startActivity(new Intent(this, AcercaDe.class));
                 return true;
+            case R.id.opcReiniciarPartida:
+                this.miJuego.reiniciar();
+                this.mostrarTablero();
+                return true;
 
             // TODO!!! resto opciones
 

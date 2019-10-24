@@ -1,6 +1,7 @@
 package es.upm.miw.SolitarioCelta;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -13,10 +14,16 @@ import android.widget.RadioButton;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
 	SCeltaViewModel miJuego;
     public final String LOG_KEY = "MiW";
+
+    public final String NOMBRE_FICHERO= "save.txt";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
                 this.mostrarTablero();
                 return true;
 
+            case R.id.opcGuardarPartida:
+                this.saveGame();
+                return true;
+
             // TODO!!! resto opciones
 
             default:
@@ -97,5 +108,20 @@ public class MainActivity extends AppCompatActivity {
                 ).show();
         }
         return true;
+    }
+
+    public void saveGame(){
+        String cadena = this.miJuego.serializaTablero();
+        try {
+            FileOutputStream fos = openFileOutput(this.NOMBRE_FICHERO, Context.MODE_APPEND);
+            fos.write(cadena.getBytes());
+            fos.close();
+            Log.i(LOG_KEY, "Game saved");
+        } catch(FileNotFoundException e){
+            Log.i(LOG_KEY, "FileNotFoundException");
+        } catch(IOException e){
+            Log.i(LOG_KEY, "IOException");
+        }
+
     }
 }

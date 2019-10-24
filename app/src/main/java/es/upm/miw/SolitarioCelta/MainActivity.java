@@ -14,9 +14,11 @@ import android.widget.RadioButton;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,9 +95,12 @@ public class MainActivity extends AppCompatActivity {
                 this.miJuego.reiniciar();
                 this.mostrarTablero();
                 return true;
-
             case R.id.opcGuardarPartida:
                 this.saveGame();
+                return true;
+            case R.id.opcRecuperarPartida:
+                this.loadGame();
+                this.mostrarTablero();
                 return true;
 
             // TODO!!! resto opciones
@@ -113,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     public void saveGame(){
         String cadena = this.miJuego.serializaTablero();
         try {
-            FileOutputStream fos = openFileOutput(this.NOMBRE_FICHERO, Context.MODE_APPEND);
+            FileOutputStream fos = openFileOutput(this.NOMBRE_FICHERO, Context.MODE_PRIVATE);
             fos.write(cadena.getBytes());
             fos.close();
             Log.i(LOG_KEY, "Game saved");
@@ -122,6 +127,19 @@ public class MainActivity extends AppCompatActivity {
         } catch(IOException e){
             Log.i(LOG_KEY, "IOException");
         }
+    }
 
+    public void loadGame() {
+        try {
+            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(this.NOMBRE_FICHERO)));
+            String linea = fin.readLine();
+            fin.close();
+            Log.i(LOG_KEY, linea);
+            miJuego.deserializaTablero(linea);
+        }catch(FileNotFoundException e){
+            Log.i(LOG_KEY, "FileNotFoundException");
+        } catch(IOException e){
+            Log.i(LOG_KEY, "IOException");
+        }
     }
 }

@@ -4,13 +4,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 public class AlertDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final MainActivity main = (MainActivity) getActivity();
-
+        main.miJuego.saveResults(main.getApplicationContext());
         AlertDialog.Builder builder = new AlertDialog.Builder(main);
         builder
                 .setTitle(R.string.txtDialogoFinalTitulo)
@@ -37,4 +39,7 @@ public class AlertDialogFragment extends DialogFragment {
 
 		return builder.create();
 	}
+
+    private void saveResults(){
+    }
 }

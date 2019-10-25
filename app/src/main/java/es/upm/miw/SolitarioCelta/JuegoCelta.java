@@ -1,5 +1,12 @@
 package es.upm.miw.SolitarioCelta;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import es.upm.miw.SolitarioCelta.models.RepositorioResults;
+
 class JuegoCelta {
 
 	static final int TAMANIO = 7;
@@ -180,5 +187,25 @@ class JuegoCelta {
         tablero[TAMANIO / 2][TAMANIO / 2] = HUECO;   // hueco en posición central
 
         estadoActual = Estado.ESTADO_SELECCION_FICHA;
+	}
+
+	private int countPiece(){
+
+		String serialized = this.serializaTablero();
+		int count = 0;
+		for(int i = 0; i < serialized.length(); i++){
+			if(serialized.charAt(i) == '1'){
+				count++;
+			}
+		}
+		return count;
+	}
+
+	public void saveResults(Context context){
+		RepositorioResults repositorioResults = new RepositorioResults(context);;
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+		String name = sharedPref.getString("nombreJugador", "");
+		long hey = repositorioResults.add(name, countPiece());
+		Log.i("tag", "NUm: "+hey);
 	}
 }

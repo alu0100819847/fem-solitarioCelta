@@ -1,6 +1,7 @@
 package es.upm.miw.SolitarioCelta;
 
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 
 public class SCeltaViewModel extends ViewModel {
 
@@ -75,5 +76,9 @@ public class SCeltaViewModel extends ViewModel {
      */
     public void reiniciar() {
         _juego.reiniciar();
+    }
+
+    public void saveResults(Context context){
+        _juego.saveResults(context);
     }
 }

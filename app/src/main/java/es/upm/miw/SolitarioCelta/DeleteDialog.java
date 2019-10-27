@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 
 import es.upm.miw.SolitarioCelta.models.RepositorioResults;
 
@@ -28,8 +27,10 @@ public class DeleteDialog extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 repositorioResults.deleteAll();
+
                             }
                         }
+
                 )
                 .setNegativeButton(
                         getString(R.string.deleteNo),

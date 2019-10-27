@@ -3,23 +3,21 @@ package es.upm.miw.SolitarioCelta.models;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import static es.upm.miw.SolitarioCelta.models.ResultContract.tablaResults;
 
 public class RepositorioResults extends SQLiteOpenHelper {
+
     public static final String NOMBRE_FICHERO = tablaResults.Table_Name + ".db";
+
     public static final int DATABASE_VERSION = 1;
+
     public final int NUMBER_OF_ENTRIES= 3;
 
     private static final String SQL_CREATE_ENTRIES =
@@ -41,8 +39,6 @@ public class RepositorioResults extends SQLiteOpenHelper {
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // This database is only a cache for online data, so its upgrade policy is
-        // to simply to discard the data and start over
         db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
     }
@@ -70,17 +66,16 @@ public class RepositorioResults extends SQLiteOpenHelper {
                 tablaResults.COL_NAME_PIECE
         };
 
-        String sortOrder =
-                tablaResults.COL_NAME_PIECE + " ASC";
+        String sortOrder = tablaResults.COL_NAME_PIECE + " ASC";
 
         Cursor cursor = db.query(
-                tablaResults.Table_Name,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                sortOrder              // The sort order
+                tablaResults.Table_Name,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
         );
 
         ArrayList items = new ArrayList<>();
@@ -94,7 +89,6 @@ public class RepositorioResults extends SQLiteOpenHelper {
 
         }
         cursor.close();
-
         return items;
     }
 

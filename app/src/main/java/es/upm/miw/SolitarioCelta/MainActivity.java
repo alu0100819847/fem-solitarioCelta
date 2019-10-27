@@ -25,11 +25,10 @@ import es.upm.miw.SolitarioCelta.models.RepositorioResults;
 public class MainActivity extends AppCompatActivity {
 
     SCeltaViewModel miJuego;
+
     public final String LOG_KEY = "MiW";
 
     public final String NOMBRE_FICHERO= "save.txt";
-
-    public final String RESULT_KEY = "RESULT_DATA";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtras(bundle);
                 startActivity(intent);
                 return true;
-            // TODO!!! resto opciones
 
             default:
                 Snackbar.make(

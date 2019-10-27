@@ -13,6 +13,8 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import es.upm.miw.SolitarioCelta.models.RepositorioResults;
+
 
 public class BestRecords extends AppCompatActivity {
 
@@ -23,19 +25,11 @@ public class BestRecords extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         setContentView(R.layout.record_list);
-
         this.lvListado =(ListView) findViewById(R.id.lvListadoElementos);
         this.bundle = this.getIntent().getExtras();
         this.data = bundle.getStringArrayList(getString(R.string.resultkey));
-
-/*
-        RecordAdapter recordAdapter = new RecordAdapter(getApplicationContext(), R.layout.record_list, data);
-        lvListado.setAdapter(recordAdapter);*/
-
         ArrayAdapter<String> adaptador = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
@@ -58,10 +52,9 @@ public class BestRecords extends AppCompatActivity {
             case R.id.deleteAll:
                 DeleteDialog dialogFragment = new DeleteDialog();
                 dialogFragment.show(getSupportFragmentManager(), "Delete");
+
                 break;
             case android.R.id.home:
-                // todo: goto back activity from here
-
                 Intent intent = new Intent(BestRecords.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);

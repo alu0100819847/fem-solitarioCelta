@@ -2,11 +2,17 @@ package es.upm.miw.SolitarioCelta.models;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static es.upm.miw.SolitarioCelta.models.ResultContract.tablaResults;
@@ -14,6 +20,7 @@ import static es.upm.miw.SolitarioCelta.models.ResultContract.tablaResults;
 public class RepositorioResults extends SQLiteOpenHelper {
     public static final String NOMBRE_FICHERO = tablaResults.Table_Name + ".db";
     public static final int DATABASE_VERSION = 1;
+    public final int NUMBER_OF_ENTRIES= 3;
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + tablaResults.Table_Name + " (" +
@@ -52,6 +59,48 @@ public class RepositorioResults extends SQLiteOpenHelper {
 
         long newRowId = db.insert(tablaResults.Table_Name, null, values);
         return newRowId;
+    }
+
+    public ArrayList<String> readString(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] projection = {
+                tablaResults.COL_NAME_ID,
+                tablaResults.COL_NAME_NAME,
+                tablaResults.COL_NAME_DATE,
+                tablaResults.COL_NAME_PIECE
+        };
+
+        String sortOrder =
+                tablaResults.COL_NAME_PIECE + " ASC";
+
+        Cursor cursor = db.query(
+                tablaResults.Table_Name,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                null,              // The columns for the WHERE clause
+                null,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                sortOrder              // The sort order
+        );
+
+        ArrayList items = new ArrayList<>();
+        int count = 0;
+        while(cursor.moveToNext() && count < this.NUMBER_OF_ENTRIES) {
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(tablaResults.COL_NAME_NAME));
+            String date = cursor.getString(cursor.getColumnIndexOrThrow(tablaResults.COL_NAME_DATE));
+            int pieces = cursor.getInt(cursor.getColumnIndexOrThrow(tablaResults.COL_NAME_PIECE));
+            items.add( name + " | " + date + " | " + pieces );
+            count++;
+
+        }
+        cursor.close();
+
+        return items;
+    }
+
+    public void deleteAll(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL("delete from "+ tablaResults.Table_Name);
     }
 
 }

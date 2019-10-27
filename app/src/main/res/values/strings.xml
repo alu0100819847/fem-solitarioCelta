@@ -26,6 +26,10 @@
     <string name="prefTituloNombreJugador">Nombre del jugador</string>
     <string name="prefTextoNombreJugador">Pulse para teclear el nombre del jugador</string>
     <string name="prefTituloCategoria2">Ajustes del juego</string>
-
+    <string name="resultkey">DATA_KEY</string>
+    <string name="delete">DELETE</string>
+    <string name="deleteDialog">¿Desea borrar todo?</string>
+    <string name="deleteSi">SI</string>
+    <string name="deleteNo">No</string>
 
 </resources>

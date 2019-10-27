@@ -20,12 +20,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import es.upm.miw.SolitarioCelta.models.RepositorioResults;
+
 public class MainActivity extends AppCompatActivity {
 
-	SCeltaViewModel miJuego;
+    SCeltaViewModel miJuego;
     public final String LOG_KEY = "MiW";
 
     public final String NOMBRE_FICHERO= "save.txt";
+
+    public final String RESULT_KEY = "RESULT_DATA";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +106,15 @@ public class MainActivity extends AppCompatActivity {
                 this.loadGame();
                 this.mostrarTablero();
                 return true;
-
+            case R.id.opcMejoresResultados:
+                RepositorioResults repo = new RepositorioResults(getApplicationContext());
+                Log.i(LOG_KEY, repo.readString().toString());
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList(getString(R.string.resultkey), repo.readString());
+                Intent intent = new Intent(getApplicationContext(), BestRecords.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                return true;
             // TODO!!! resto opciones
 
             default:
